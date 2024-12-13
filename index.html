@@ -3,58 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Counter</title>
+    <title>ระบบลงเวลา</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #002147;
+            color: white;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f4f4f9;
         }
-        .counter {
+        .container {
+            background-color: #333;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .time {
             font-size: 2rem;
-            margin: 20px;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
         }
         .buttons {
             display: flex;
             gap: 10px;
+            justify-content: center;
         }
         button {
             padding: 10px 20px;
             font-size: 1rem;
-            cursor: pointer;
             border: none;
             border-radius: 5px;
-            background-color: #ff1717;
+            cursor: pointer;
+        }
+        .submit {
+            background-color: #00bfff;
+            color: black;
+        }
+        .back {
+            background-color: #0056b3;
             color: white;
         }
         button:hover {
-            background-color: #0056b3;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
-    <div class="counter" id="counter">0</div>
-    <div class="buttons">
-        <button onclick="add()">Add</button>
-        <button onclick="subtract()">Subtract</button>
+    <div class="container">
+        <div class="time" id="time">10:57 AM</div>
+        <label for="employee-id">กรอกรหัสพนักงาน</label>
+        <input type="text" id="employee-id" placeholder="รหัสพนักงาน">
+        <div class="buttons">
+            <button class="submit" onclick="submitTime()">ลงเวลา</button>
+            <button class="back" onclick="goBack()">ย้อนกลับ</button>
+        </div>
     </div>
-
     <script>
-        let count = 0;
+        // ฟังก์ชันแสดงเวลาปัจจุบัน
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const formattedTime = `${hours % 12 || 12}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+            document.getElementById('time').textContent = formattedTime;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
 
-        function add() {
-            count++;
-            document.getElementById('counter').textContent = count;
+        // ฟังก์ชันสำหรับปุ่มลงเวลา
+        function submitTime() {
+            const employeeId = document.getElementById('employee-id').value;
+            if (employeeId.trim() === '') {
+                alert('กรุณากรอกรหัสพนักงาน');
+                return;
+            }
+            alert(`ลงเวลาสำเร็จสำหรับรหัสพนักงาน: ${employeeId}`);
         }
 
-        function subtract() {
-            count--;
-            document.getElementById('counter').textContent = count;
+        // ฟังก์ชันสำหรับปุ่มย้อนกลับ
+        function goBack() {
+            alert('กลับไปยังหน้าก่อนหน้า');
         }
     </script>
 </body>
